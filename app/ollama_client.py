@@ -1,13 +1,33 @@
 import requests
 
-url = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://localhost:11434/api/generate"
 
-payload = {
-    "model": "llama3.2:3b",
-    "prompt": "What is machine learning?",
-    "stream": False
-}
 
-response = requests.post(url, json=payload)
+def generate_response(
+    prompt,
+    model="llama3.2:3b",
+    temperature=0.0,
+    stream=False
+):
+    """
+    Sends prompt to local Ollama model
+    and returns generated response.
+    """
 
-print(response.json()["response"])
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "temperature": temperature,
+        "stream": stream
+    }
+
+    response = requests.post(
+        OLLAMA_URL,
+        json=payload
+    )
+
+    response.raise_for_status()
+
+    data = response.json()
+
+    return data["response"]
