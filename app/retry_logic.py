@@ -1,8 +1,8 @@
 import json
 
-from ollama_client import generate_response
-from prompts import JSON_PROMPT_TEMPLATE
-from schemas import AIResponseSchema
+from app.ollama_client import generate_response
+from app.prompts import JSON_PROMPT_TEMPLATE
+from app.schemas import AIResponseSchema
 
 
 def generate_validated_response(

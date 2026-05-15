@@ -1,16 +1,17 @@
 from fastapi import FastAPI
+
 from app.schemas import PromptRequest
-from app.ollama_client import generate_response
+from app.retry_logic import generate_validated_response
 
 app = FastAPI(
     title="Offline AI Assistant",
-    description="Local LLM API using Ollama",
-    version="1.0"
+    version="2.0"
 )
 
 
 @app.get("/")
 def home():
+
     return {
         "message": "Offline AI Assistant Running"
     }
@@ -19,14 +20,8 @@ def home():
 @app.post("/chat")
 def chat(request: PromptRequest):
 
-    answer = generate_response(
-        prompt=request.prompt,
-        model=request.model,
-        temperature=request.temperature
+    result = generate_validated_response(
+        request.prompt
     )
 
-    return {
-        "prompt": request.prompt,
-        "response": answer,
-        "model": request.model
-    }
+    return result
