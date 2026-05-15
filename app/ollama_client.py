@@ -9,10 +9,6 @@ def generate_response(
     temperature=0.0,
     stream=False
 ):
-    """
-    Sends prompt to local Ollama model
-    and returns generated response.
-    """
 
     payload = {
         "model": model,
